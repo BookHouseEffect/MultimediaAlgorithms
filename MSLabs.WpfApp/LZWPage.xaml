@@ -1,0 +1,152 @@
+﻿<Page x:Class="MSLabs.WpfApp.LZWPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MSLabs.WpfApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LZWPage">
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar Minimum="0" Maximum="100" x:Name="CompressionStatus" IsIndeterminate="True" Grid.Row="3" 
+                         Grid.Column="0" MinHeight="30" Margin="0,0,5,5"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Background="Red">
+                <Viewbox StretchDirection="DownOnly">
+                    <TextBlock Text="LEMPEL-ZIV-WELCH (LZW) COMPRESSION ALGORITHM"
+                        TextWrapping="WrapWithOverflow" FontSize="14" Foreground="White" FontWeight="Bold"
+                        TextAlignment="Left" Padding="3,3,3,3"/>
+                </Viewbox>
+            </StackPanel>
+
+            <TabControl VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="2" >
+
+                <TabItem Header="About LZW">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="NoConnection" Visibility="Collapsed" TextWrapping="WrapWithOverflow" Grid.Row="0"
+                                   Grid.Column="0" Margin="20" TextAlignment="Justify">
+                            Lempel–Ziv–Welch (LZW) is a universal lossless data compression algorithm created by Abraham Lempel, Jacob Ziv, and Terry Welch.
+                            It was published by Welch in 1984 as an improved implementation of the LZ78 algorithm published by Lempel and Ziv in 1978. 
+                            The algorithm is simple to implement and has the potential for very high throughput in hardware implementations.
+                            It is the algorithm of the widely used Unix file compression utility compress and is used in the GIF image format.
+                        </TextBlock>
+
+                        <Frame x:Name="InfoFrame" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="20" />
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Plain Text">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock TextWrapping="WrapWithOverflow" Margin="0,0,0,10" TextAlignment="Justify">
+                                Insert the text you want to compress in the text box bellow:
+                            </TextBlock>
+
+                            <TextBox x:Name="PlainText" AcceptsReturn="True" Margin="0,0,0,10" MinHeight="200" 
+                                     TextWrapping="WrapWithOverflow" TextAlignment="Justify" TextChanged="PlainText_TextChanged"/>
+
+                            <Button HorizontalAlignment="Stretch" Padding="5,5,5,5" MaxHeight="40" x:Name="PerformActionButton"
+                                FontWeight="Bold" FontStyle="Normal" Click="Perform_LWZ_Compression_Button_Click">
+                                <Viewbox StretchDirection="Both">
+                                    <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="PERFORM COMPRESSION" />
+                                </Viewbox>
+                            </Button>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="Compressed Text (dec)">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock x:Name="CompressedTextDecimalError" FontSize="16" FontWeight="ExtraBlack" 
+                                       Foreground="Red" TextWrapping="WrapWithOverflow" TextAlignment="Justify" >
+                            NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO 
+                            PERFORM COMPRESSION. AFTER THAT THE COMPRESSION DATA WILL BE AVAILBLE.
+                            </TextBlock>
+                            <TextBlock Text="" x:Name="CompressedTextDecimal" TextWrapping="WrapWithOverflow" TextAlignment="Justify"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="Compressed Text (hex)">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock  x:Name="CompressedTextHexadecimalError" FontSize="16" FontWeight="ExtraBlack" 
+                                        Foreground="Red" TextWrapping="WrapWithOverflow" TextAlignment="Justify" >
+                            NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO 
+                            PERFORM COMPRESSION. AFTER THAT THE COMPRESSION DATA WILL BE AVAILBLE.
+                            </TextBlock>
+                            <TextBlock Text="" x:Name="CompressedTextHexadecimal" TextWrapping="WrapWithOverflow" TextAlignment="Justify"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="Compressed Text (bin)">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock x:Name="CompressedTextBinaryError" FontSize="16" FontWeight="ExtraBlack" Foreground="Red"  TextWrapping="WrapWithOverflow" TextAlignment="Justify">
+                            NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO 
+                            PERFORM COMPRESSION. AFTER THAT THE COMPRESSION DATA WILL BE AVAILBLE.
+                            </TextBlock>
+                            <TextBlock Text="" x:Name="CompressedTextBinary" TextWrapping="WrapWithOverflow" TextAlignment="Justify"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="Index Dictionary">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock x:Name="IndexDictionaryError" FontSize="16" FontWeight="ExtraBlack" Foreground="Red" TextWrapping="WrapWithOverflow" TextAlignment="Justify"> 
+                            NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO 
+                            PERFORM COMPRESSION. AFTER THAT THE COMPRESSION DATA WILL BE AVAILBLE.
+                            </TextBlock>
+                            <WrapPanel x:Name="IndexDictionary" />
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="Statistics">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock x:Name="StatisticsPanelError" FontSize="16" FontWeight="ExtraBlack" Foreground="Red" TextWrapping="WrapWithOverflow" TextAlignment="Justify"> 
+                            NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO 
+                            PERFORM COMPRESSION. AFTER THAT THE COMPRESSION DATA WILL BE AVAILBLE.
+                            </TextBlock>
+                            <StackPanel x:Name="StatisticsPanel">
+                                <TextBlock><LineBreak/><LineBreak/>Plain text bits count:</TextBlock>
+                                <TextBlock x:Name="PlainCount"/>
+
+                                <TextBlock><LineBreak/><LineBreak/>Compressed text bits count:</TextBlock>
+                                <TextBlock x:Name="CompressedCount"/>
+
+                                <TextBlock><LineBreak/><LineBreak/>Compression degree:</TextBlock>
+                                <TextBlock x:Name="CompressionDegree"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+            </TabControl>
+
+        </Grid>
+    </Grid>
+</Page>
