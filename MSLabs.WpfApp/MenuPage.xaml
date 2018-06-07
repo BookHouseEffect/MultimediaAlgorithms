@@ -1,0 +1,55 @@
+﻿<Page x:Class="MSLabs.WpfApp.MenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MSLabs.WpfApp"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MenuPage">
+
+    <Grid x:Name="test">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="10*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Padding="20,20,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold"
+                FontStyle="Normal" FontSize="48" Grid.Row="1" Grid.Column="1" Click="LZW_Button_Click" >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#CC800000"/>
+                    <GradientStop Color="#33FF0000" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+            <Viewbox StretchDirection="Both">
+                <TextBlock FontSize="72" TextWrapping="WrapWithOverflow" TextAlignment="Center">
+                    <Span>LEMPEL-ZIV-WELCH (LZW) <LineBreak/> COMPRESSION <LineBreak/> ALGORITHM</Span>
+                </TextBlock>
+            </Viewbox>
+        </Button>
+
+        <Button Padding="20,20,20,20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" FontWeight="Bold"
+                FontStyle="Normal" FontSize="48" Grid.Row="3" Grid.Column="1" Click="AC_Button_Click" >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#3300FF00"/>
+                    <GradientStop Color="#CC008000" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+            <Viewbox StretchDirection="Both">
+                <TextBlock FontSize="72" TextWrapping="WrapWithOverflow" TextAlignment="Center">
+                    <Span>ARITHMETIC <LineBreak/> CODING <LineBreak/> ALGORITHM</Span>
+                </TextBlock>
+            </Viewbox>
+        </Button>
+    </Grid>
+</Page>

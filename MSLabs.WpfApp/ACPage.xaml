@@ -1,0 +1,177 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MSLabs.WpfApp"
+      xmlns:System="clr-namespace:System;assembly=mscorlib" x:Class="MSLabs.WpfApp.ACPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ACPage">
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar Minimum="0" Maximum="100" x:Name="CodingStatus" IsIndeterminate="True" Grid.Row="3" 
+                         Grid.Column="0" MinHeight="30" Margin="0,0,5,5"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Background="Green">
+                <Viewbox StretchDirection="DownOnly">
+                    <TextBlock Text="ARITHMETIC CODING ALGORITHM"
+                        TextWrapping="WrapWithOverflow" FontSize="14" Foreground="White" FontWeight="Bold"
+                        TextAlignment="Left" Padding="3,3,3,3"/>
+                </Viewbox>
+            </StackPanel>
+
+            <TabControl VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="2" >
+
+                <TabItem Header="About Aritmetic Coding">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock x:Name="NoConnection" Visibility="Collapsed" TextWrapping="WrapWithOverflow" Grid.Row="0"
+                                   Grid.Column="0" Margin="20" TextAlignment="Justify"><Run Text="Arithmetic coding is a form of entropy encoding used in lossless data compression. Normally, a string of characters such as the words &quot;hello there&quot; is represented using a fixed number of bits per character, as in the ASCII code. When a string is converted to arithmetic encoding, frequently used characters will be stored with fewer bits and not-so-frequently occurring characters will be stored with more bits, resulting in fewer bits used in total. Arithmetic coding differs from other forms of entropy encoding, such as Huffman coding, in that rather than separating the input into component symbols and replacing each with a code, arithmetic coding encodes the entire message into a single number, an arbitrary-precision fraction q where 0.0 ≤ q &lt; 1.0. It represents the current information as a range, defined by two numbers. Recent Asymmetric Numeral Systems family of entropy coders allows for faster implementations thanks to directly operating on a single natural number representing the current information."/></TextBlock>
+
+                        <Frame x:Name="InfoFrame" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Margin="20" />
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Plain Text">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock TextWrapping="WrapWithOverflow" Margin="0,0,0,10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
+                                   TextAlignment="Justify">
+                            (Left Hand Side) Insert the text you want to encode in the text box bellow . 
+                            Then press analyze button.
+                            <LineBreak/>
+                            (Right Hand Side) For each of the characters in the text, insert the probability of appearace of the character 
+                            (should be a number beetween 0 and 1, and the sum of all probability values should be 1).
+                            The format can be a decimal number ( "0." followed by the number any digit, or "1.0") or as a
+                            fraction (any nonnegative number, followed by '/', followed by any positive number, but bigger than previous).
+                            Any error in the format will be marked with red color of the value.
+                            When finished press on the button to perform the coding
+                        </TextBlock>
+
+                        <ScrollViewer Grid.Row="1" Grid.Column="0">
+                            <StackPanel Margin="20">
+                                <TextBox x:Name="PlainText" AcceptsReturn="True" Margin="0,0,0,10" MinHeight="200" TextChanged="PlainText_TextChanged"
+                                         TextWrapping="WrapWithOverflow" TextAlignment="Justify" MaxLength="1000"/>
+
+                                <Button HorizontalAlignment="Stretch" Padding="5,5,5,5" MaxHeight="40" x:Name="AnalyzeCharacters"
+                                    FontWeight="Bold" FontStyle="Normal" Click="AnalyzeCharacters_Click">
+                                    <Viewbox StretchDirection="Both">
+                                        <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="ANALYZE CHARACTERS" />
+                                    </Viewbox>
+                                </Button>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <ScrollViewer Grid.Row="1" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility ="Visible"
+                                      ScrollViewer.VerticalScrollBarVisibility ="Visible">
+                            <StackPanel>
+                                <Button HorizontalAlignment="Stretch" Padding="5,5,5,5" MaxHeight="40" x:Name="PerformCoding" Grid.Row="2" Grid.Column="1"
+                                    FontWeight="Bold" FontStyle="Normal" Click="PerformCoding_Click">
+                                    <Viewbox StretchDirection="Both">
+                                        <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Text="PERFORM_CODING" />
+                                    </Viewbox>
+                                </Button>
+                                <StackPanel x:Name="ProbalityTable"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Encoded range (A -&gt; B) as a fraction">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock x:Name="EncodedTextFractionError" FontSize="16" FontWeight="ExtraBlack" 
+                                       Foreground="Red" TextWrapping="WrapWithOverflow" TextAlignment="Justify" ><Run Text="NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO PERFORM CODING. AFTER THAT THE CODING DATA WILL BE AVAILBLE."/></TextBlock>
+                            <TextBlock Text="A = a/b -&gt; B = c/d" TextWrapping="WrapWithOverflow" TextAlignment="Justify"/>
+                            <Grid x:Name="EncodedTextFraction">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Variable Name" Grid.Row="0" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock Text="Variable Value (BigInteger)" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+
+                                <TextBlock Text="a" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock x:Name="varA" Text="" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+
+                                <TextBlock Text="b" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock x:Name="varB" Text="" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+
+                                <TextBlock Text="c" Grid.Row="3" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock x:Name="varC" Text="" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+
+                                <TextBlock Text="d" Grid.Row="4" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock x:Name="varD" Text="" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <TabItem Header="Encoded range (A -&gt; B) as a decimal">
+                    <ScrollViewer>
+                        <StackPanel Margin="20">
+                            <TextBlock x:Name="EncodedTextDecimalError" FontSize="16" FontWeight="ExtraBlack" 
+                                       Foreground="Red" TextWrapping="WrapWithOverflow" TextAlignment="Justify" ><Run Text="NO DATA AVAILABLE! GO ON PLAIN TEXT TAB, ADD A TEXT IN THE TEXT BOX AND PRESS ON THE BUTTON TO PERFORM CODING. AFTER THAT THE CODING DATA WILL BE AVAILBLE."/></TextBlock>
+                            <TextBlock Text="A -&gt; B" TextWrapping="WrapWithOverflow" TextAlignment="Justify"/>
+                            <Grid x:Name="EncodedTextDecimal">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Variable Name" Grid.Row="0" Grid.Column="0"/>
+                                <TextBlock Text="Variable Value (BigDouble)" Grid.Row="0" Grid.Column="1"/>
+
+                                <TextBlock Text="a" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock x:Name="decA" Text="" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+
+                                <TextBlock Text="b" Grid.Row="2" Grid.Column="0" TextWrapping="Wrap" Margin="10"/>
+                                <TextBlock x:Name="decB" Text="" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Margin="10"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </Grid>
+</Page>
